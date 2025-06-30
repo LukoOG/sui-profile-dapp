@@ -1,9 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #fefefe;
   --foreground: #171717;
 }
+
+
 
 @theme inline {
   --color-background: var(--background);
@@ -23,4 +25,18 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* styling for the backkground of the components */
+@layer components{
+  .header-nav{
+    /* bg-transparent backdrop-blur-lg */
+    @apply bg-transparent backdrop-blur-lg shadow-2xl border-b-gray-50 rounded-md w-[90%] mx-auto my-2
+    relative h-[15vh] 
+  }
+
+  .main-container{
+    @apply p-1 my-1 relative w-full min-h-[calc(85vh)]
+  }
+
 }
