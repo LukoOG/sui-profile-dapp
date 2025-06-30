@@ -1,55 +1,44 @@
 "use client";
 import { useCurrentAccount } from "@mysten/dapp-kit";
 import { useState, useEffect } from "react";
+import { useProfile } from "@/app/hooks/useProfile"
+//components
 import LoadingSpinner from "@/app/components/loadingSpinner"
-
+import ProfileDisplay from "./components/profileDisplay";
+import ProfileForm from "./components/profileForm";
+import LandingPage from "./components/landing";
 export default function Home() {
   const account = useCurrentAccount()
 
-  // initial app state
-  const [appState, setAppState] = useState<appStateType>('loading')
+  const address = account?.address || null
+  const {profile, loading} = useProfile(address)
 
-  type appStateType = "connected" | "unconnected" | "updating" | "loading"
+  const isConnected = !!account;
+  let isLoading = loading || (isConnected && loading);
+  const hasProfile = !!profile;
 
-  const getAppState = () => {
-    if (!account){
-      setAppState("unconnected")
-    }
-  }
-  // spinner text
-  const getSpinnerText = (state: appStateType) => {
-    switch(state){
-      case 'loading':
-        return "Loading"
-      case 'unconnected':
-        return "Connecting"
-      case 'connected':
-        return ''
-      case "updating":
-        return ''
-    }
-  }
+  let spinnerText: string;
+  spinnerText = isConnected ? "Loading Profile..." : "Connecting wallet..."
+  console.log(!!account, account)
 
-  const formatAddress = (address: string): string => {
-    return address.slice(0, 6)
-  }
-  
-  //component lifecycle
-  useEffect(() => {
-    if(account){
-      setAppState("connected")
-    } else if (!account){
-      setAppState("unconnected")
-    }
-  }, [account])
-
+  useEffect(()=>{
+    console.log(loading, isLoading)
+  }, [loading])
 
   return (
     <section className="mx-auto w-[90%] h-[calc(85vh-60px)]">
-      { appState == "loading" ? (
-        <LoadingSpinner text={getSpinnerText(appState)} />
-      ):(
-        <p>Connected address: {account?.address ? formatAddress(account?.address) : "Connect a wallet"}</p>
+      { isLoading ? (
+        <LoadingSpinner text={spinnerText} />
+      ):
+      !isConnected ? (
+        <LandingPage/>
+      ) : (
+        hasProfile ? (
+          <ProfileDisplay profile={profile} />
+        ) : (
+          <ProfileForm address={address} />
+        )
+        
       )}
     </section>
   )

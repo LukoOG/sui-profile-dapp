@@ -12,7 +12,7 @@ export default function Navbar(){
                 </div>
 
                 <div className="space-x-3 ml-2">
-                    <h2 className="text-lg font-semibold text-[#55f8ebd2] ">SUI Profile</h2>
+                    <h2 className="text-lg font-semibold text-[#5558f8d2] ">SUI Profile</h2>
                     <span className="text-sm text-gray-400">Onchain identity management</span>
                 </div>
             </div>
