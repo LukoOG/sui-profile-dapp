@@ -6,6 +6,7 @@ import Header from "@/app/components/header";
 // import Footer from "@/app/components/footer";
 
 import SuiLayoutProvider from "./layout/SuiLayoutProvider";
+import ToastProvider from "./ui/use-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,8 +29,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           <SuiLayoutProvider>
-            <Header />
-            <main className="main-container">{children}</main>
+            <ToastProvider>
+              <Header />
+              <main className="main-container">{children}</main>
+            </ToastProvider>            
           </SuiLayoutProvider>
       </body>
     </html>

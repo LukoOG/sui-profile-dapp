@@ -13,9 +13,8 @@ const ProfileForm: React.FC<ProfileFormProps> = ({address}) => {
     }
     return (
         <div className='div-container'>
-            <form>
-                <p>form</p>
-                <p>connected address: {formatAddress(address)}</p>
+            <form className="profile-form">
+                
             </form>
         </div>
     )
