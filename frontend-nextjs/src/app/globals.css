@@ -39,4 +39,8 @@ body {
     @apply p-1 my-1 relative w-full min-h-[calc(85vh)]
   }
 
+  .div-container{
+    @apply relative bottom-0 w-full min-h-full my-auto h-[calc(100%-40px)]
+  }
+
 }

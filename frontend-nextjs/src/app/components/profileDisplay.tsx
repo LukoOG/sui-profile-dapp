@@ -10,9 +10,11 @@ const ProfileDisplay: React.FC<ProfileDisplayProps> = ({ profile }) => {
   }
   
     return (
-        <div>
-            <p>display: {profile}</p>
-            <p> {profile}</p>
+        <div className='div-container'>
+            <section>
+                <p>display: {profile}</p>
+                <p> {profile}</p>
+            </section>
         </div>
     )
 }

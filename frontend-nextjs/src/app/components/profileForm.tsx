@@ -12,9 +12,11 @@ const ProfileForm: React.FC<ProfileFormProps> = ({address}) => {
         return `${address.slice(0, 6)}....${address.slice(-4)}`
     }
     return (
-        <div>
-            <p>form</p>
-            <p>connected address: {formatAddress(address)}</p>
+        <div className='div-container'>
+            <form>
+                <p>form</p>
+                <p>connected address: {formatAddress(address)}</p>
+            </form>
         </div>
     )
 }

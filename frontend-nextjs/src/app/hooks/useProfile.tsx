@@ -1,8 +1,7 @@
-import { suiClient } from "@/app/lib/Sui";
+import { packageAddress, suiClient } from "@/app/lib/Sui";
 import { useEffect,  useState } from "react";
 
-
-const PROFILE_TYPE = ``
+const PROFILE_TYPE = `${packageAddress}:Profile`
 
 export const useProfile = (address: string | null) => {
     const [profile, setProfile] = useState<any>(null);
