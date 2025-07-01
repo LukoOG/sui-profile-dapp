@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: rgb(248, 250, 252);
-  --foreground: rgb(27 31 43);
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 
@@ -23,7 +23,8 @@
 
 body {
   /* background: var(--background); */
-  background: linear-gradient();
+  background: linear-gradient(135deg, #6fbcf0 0%, #1b1f2b 100%);
+  /* background: rgba(20, 20, 20, 0.404); */
   color: var(--foreground);  
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -32,7 +33,7 @@ body {
 @layer components{
   .header-nav{
     /* bg-transparent backdrop-blur-lg */
-    @apply bg-transparent backdrop-blur-lg shadow-2xl border-b-gray-50 rounded-md w-[90%] mx-auto my-2
+    @apply shadow-sm backdrop-blur-lg bg-white/10 border-b z-10 border-b-gray-50 rounded-md w-[90%] mx-auto my-2
     relative h-[15vh] 
   }
 
@@ -41,7 +42,7 @@ body {
   }
 
   .div-container{
-    @apply relative bottom-0 w-full min-h-full my-auto h-[calc(100%-40px)]
+    @apply relative min-h-full my-auto h-[calc(100%-40px)]
   }
 
 }

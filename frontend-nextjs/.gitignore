@@ -40,5 +40,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-/src/app/ui/cardref.tsx
+/src/app/components/ui/cardref.tsx
 /src/app/components/profileformref.tsx

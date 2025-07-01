@@ -3,10 +3,9 @@ import "./globals.css";
 import '@mysten/dapp-kit/dist/index.css';
 
 import Header from "@/app/components/header";
-// import Footer from "@/app/components/footer";
 
 import SuiLayoutProvider from "./layout/SuiLayoutProvider";
-import ToastProvider from "./ui/use-toast";
+import ToastProvider from "./components/ui/use-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

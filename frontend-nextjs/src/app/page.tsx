@@ -19,11 +19,12 @@ export default function Home() {
 
   let spinnerText: string;
   spinnerText = isConnected ? "Loading Profile..." : "Connecting wallet..."
-  console.log(!!account, account)
 
   useEffect(()=>{
-    console.log(loading, isLoading)
+    // console.log(loading, isLoading)
   }, [loading])
+
+  console.log(account)
 
   return (
     <section className="mx-auto w-[90%] h-[calc(85vh-60px)]">
