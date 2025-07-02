@@ -1,6 +1,22 @@
 import React from "react";
 import { cn } from "@/app/lib/utils";
 
+export function LandingCard({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  // The root container
+  return (
+    <div
+      className={cn(
+        "flex items-center gap-3 bg-slate-900/50 p-4 rounded-lg backdrop-blur-sm",
+        className
+      )}
+      {...props}
+    >
+      <div className="w-2 h-2 bg-cyan-500 rounded-full "></div>
+      {children}
+    </div>
+  );
+}
+
 export function Card({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   // The root container
   return (

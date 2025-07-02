@@ -11,7 +11,7 @@ export default function Home() {
   const account = useCurrentAccount()
 
   const address = account?.address || null
-  const {profile, loading} = useProfile(address)
+  const { profile, loading } = useProfile(address)
 
   const isConnected = !!account;
   let isLoading = loading || (isConnected && loading);
@@ -20,14 +20,9 @@ export default function Home() {
   let spinnerText: string;
   spinnerText = isConnected ? "Loading Profile..." : "Connecting wallet..."
 
-  useEffect(()=>{
-    // console.log(loading, isLoading)
-  }, [loading])
-
-  console.log(account)
-
+  console.log(profile)
   return (
-    <section className="mx-auto w-[90%] h-[calc(85vh-60px)]">
+    <section className="mx-auto w-[90%] relative h-[calc(100vh+15vh)]">
       { isLoading ? (
         <LoadingSpinner text={spinnerText} />
       ):
@@ -37,7 +32,7 @@ export default function Home() {
         hasProfile ? (
           <ProfileDisplay profile={profile} />
         ) : (
-          <ProfileForm address={address} />
+          <ProfileForm profile={profile} loading={loading}  />
         )
         
       )}

@@ -1,7 +1,7 @@
 import { packageAddress, suiClient } from "@/app/lib/Sui";
 import { useEffect,  useState } from "react";
 
-const PROFILE_TYPE = `${packageAddress}:Profile`
+const PROFILE_TYPE = `${packageAddress}::Profile`
 
 export const useProfile = (address: string | null) => {
     const [profile, setProfile] = useState<any>(null);
@@ -41,7 +41,7 @@ export const useProfile = (address: string | null) => {
         }
 
         fetchProfile()
-    }, [address])
+    }, [])
 
     return { profile, loading }
 }
