@@ -23,6 +23,9 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Transaction } from "@mysten/sui/transactions";
+import { buildPTB } from "../lib/sui/utils";
+import { useSignAndExecuteTransaction } from "@mysten/dapp-kit";
+import { suiClient } from "../lib/sui/config";
 
 // TODO: remove null checkcase. i.e make sure address is always string when passed.
 interface ProfileFormProps{
@@ -43,6 +46,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ profile, address }) => {
     const [isLoading, setIsLoading] = useState(false); //submision loading, not global loading state
     const [isDeleting, setIsDeleting] = useState(false);
     const { showToast } = useToast();
+	const { mutateAsync: signAndExecuteTransaction } = useSignAndExecuteTransaction()
 
     
     const {
@@ -72,7 +76,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ profile, address }) => {
         }
     }, [])
 
-    const handleFormSubmit = (e:any) => {
+    const handleFormSubmit = async (e:any) => {
         console.log(e)
 		const tx = new Transaction()
 		const createProfileArgs = [
@@ -81,9 +85,12 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ profile, address }) => {
 			tx.pure.string(e.avatarUrl)
 		]
 
-		console.log(createProfileArgs)
-    }
+		const createProfileTx = await buildPTB(createProfileArgs, "create-profile")
+		const { digest } = await signAndExecuteTransaction({
+			transaction: createProfileTx,
+		})
 
+		console.log(digest)
     return (
         <div className="div-container overflow-y-visible">
             <Card className="w-[calc(5/12*100%)] absolute top-[8rem] left-1/2 translate-x-[-50%] shadow-xl bg-gray-800 backdrop-blur-sm border-gray-700">
