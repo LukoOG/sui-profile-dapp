@@ -1,4 +1,5 @@
 import  React  from "react";
+import { useCurrentAccount, useSuiClientContext } from "@mysten/dapp-kit";
 import { SuiObjectResponse } from "@mysten/sui/client";
 import { ProfileObjectFields } from "../hooks/useProfile";
 import {Card, CardContent, CardFooter } from "@/app/components/ui/card";
@@ -8,8 +9,7 @@ import { Badge } from "./ui/Badge";
 import { Shield, User, Link, Edit3 } from "lucide-react";
 
 interface ProfileDisplayProps{
-    profile: SuiObjectResponse;
-    address: string;
+    profile: {fields:ProfileObjectFields};
     setProfile: (profile: SuiObjectResponse) => void,
 	onEdit: ()=>void;
 }
@@ -22,14 +22,19 @@ interface ProfileDisplayProps{
 //     }
 // }
 
-const ProfileDisplay: React.FC<ProfileDisplayProps> = ({ profile, address, setProfile, onEdit }) => {
+const ProfileDisplay: React.FC<ProfileDisplayProps> = ({ profile, setProfile, onEdit }) => {
+
+    const account = useCurrentAccount()
+    const { network } = useSuiClientContext()
     const formatAddress = (address: string): string => {
         return `${address.slice(0, 6)}....${address.slice(-4)}`
     }
 
 //   if(!profile.data || profile.data.type !== PROFILE_MOVE_TYPE) setProfile(null)
 
-  const { fields } = profile!.data.content
+    // const network = account.
+
+  const { fields } = profile
 
   console.log(fields)
   
@@ -54,7 +59,7 @@ const ProfileDisplay: React.FC<ProfileDisplayProps> = ({ profile, address, setPr
                         {/* Profile Info */}
                         <div className="text-center space-y-4 w-full">
                             <div>
-                            <h1 className="text-3xl font-bold text-white mb-2">{fields.name}</h1>
+                            <h1 className="text-3xl font-bold text-white mb-2">{fields.name} {formatAddress(account!.address)}</h1>
                             <Badge variant="secondary" className="bg-cyan-500/10 text-cyan-400 border-cyan-500/20 px-3 py-1">
                                 <User className="w-3 h-3 mr-1" />
                                 Verified Profile
@@ -82,7 +87,7 @@ const ProfileDisplay: React.FC<ProfileDisplayProps> = ({ profile, address, setPr
                                 <Link className="w-4 h-4" />
                                 Network
                                 </span>
-                                <span className="font-medium text-cyan-400">Sui Mainnet</span>
+                                <span className="font-medium text-cyan-400">Sui {network.charAt(0).toLocaleUpperCase() + network.slice(1)}</span>
                             </div>
                             
                             <div className="flex items-center justify-between py-2">

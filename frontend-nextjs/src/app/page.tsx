@@ -21,20 +21,21 @@ export default function Home() {
   } = useWalletStatus()
   
    const handleEdit = () => {
-    setIsEditing(true);
+    // setIsEditing(true);
+    console.log('clicked editing')
   };
 
 
   return (
     <section className="mx-auto w-[90%] relative min-h-[calc(80vh-16px)] max-h-fit">
       { isLoading ? (
-        <LoadingSpinner className="text-white" text={ status === "checking-wallet" ? "Connecting Wallet" : "Loading Profile" } />
+        <LoadingSpinner text={ status === "checking-wallet" ? "Connecting Wallet" : "Loading Profile" } />
       ):
       !isWalletConnected ? (
         <LandingPage/>
       ) : (
-        hasProfile && profile && account ? (
-			<ProfileDisplay profile={profile} address={account!.address} onEdit={handleEdit} />
+        hasProfile && account ? (
+			<ProfileDisplay profile={profile} setProfile={setProfile} onEdit={handleEdit} />
         ) : (
           <ProfileForm address={account!.address} profile={profile} />
         )

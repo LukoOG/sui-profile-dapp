@@ -7,7 +7,7 @@ export const network: Network = "devnet"
 export const suiClient = new SuiClient({
     url: getFullnodeUrl(network)
 })
-/*
+
 export const  walrusClient = new WalrusClient({
     suiClient,
     network:'testnet',
@@ -20,7 +20,7 @@ export const  walrusClient = new WalrusClient({
         timeout: 30_000,
 	},
 })
-*/
+
 
 const PACKAGE_ID = process.env.NEXT_PUBLIC_PACKAGE_ID
 const MODULE_NAME = process.env.NEXT_PUBLIC_MODULE_NAME
