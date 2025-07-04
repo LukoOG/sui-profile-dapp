@@ -41,16 +41,17 @@ body {
   .header-nav{
     /* bg-transparent backdrop-blur-lg */
     @apply shadow-sm backdrop-blur-md bg-white/10 border-b z-10 border-b-gray-50 rounded-md w-[90%] my-2
-    fixed top-0 left-1/2 translate-x-[-50%] min-h-[15vh]
+    sticky top-0 min-h-[15vh] mx-auto
   }
 
   .main-container{
-    @apply p-1 my-1 relative w-full min-h-[100vh] max-h-max
+    @apply p-1 my-1 relative w-full
 
   }
-
+  
   .div-container{
-    @apply relative my-auto min-h-[calc(100%-40px)] max-h-max
+    @apply my-auto mx-auto min-h-full max-h-fit relative
+    /* @apply relative min-h-[calc(100%+40px)]  */
   }
 
 }

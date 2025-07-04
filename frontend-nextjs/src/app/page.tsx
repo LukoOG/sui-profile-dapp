@@ -4,7 +4,10 @@ import LoadingSpinner from "@/app/components/loadingSpinner"
 import ProfileDisplay from "./components/profileDisplay";
 import ProfileForm from "./components/profileForm";
 import LandingPage from "./components/landing";
+import { Button } from '@/app/components/ui/button';
 import { useWalletStatus } from "./hooks/useWalletStatus";
+import { Edit3 } from 'lucide-react';
+
 export default function Home() {
 
   const {
@@ -13,23 +16,27 @@ export default function Home() {
     isLoading,
     isWalletConnected,
     hasProfile,
-    profile
+    profile,
+    setProfile
   } = useWalletStatus()
-
+  
+   const handleEdit = () => {
+    setIsEditing(true);
+  };
 
 
   return (
-    <section className="mx-auto w-[90%] relative h-[calc(100vh+15vh)] max-h-fit">
+    <section className="mx-auto w-[90%] relative min-h-[80vh] max-h-fit">
       { isLoading ? (
-        <LoadingSpinner className="text-slate-50" text={ status === "checking-wallet" ? "Connecting Wallet" : "Loading Profile" } />
+        <LoadingSpinner className="text-white" text={ status === "checking-wallet" ? "Connecting Wallet" : "Loading Profile" } />
       ):
       !isWalletConnected ? (
         <LandingPage/>
       ) : (
         hasProfile && account ? (
-          <ProfileDisplay profile={profile} />
+			<ProfileDisplay profile={profile} address={account!.address} onEdit={handleEdit} />
         ) : (
-          <ProfileForm address={account?.address} profile={profile} />
+          <ProfileForm address={account!.address} profile={profile} />
         )
         
       )}

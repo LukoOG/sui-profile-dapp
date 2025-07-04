@@ -6,7 +6,7 @@ export const useWalletStatus = () => {
     const account = useCurrentAccount()
     const address = account?.address || null
     
-    const { profile, loading: profileLoading } = useProfile(address)
+    const { profile, loading: profileLoading, setProfile } = useProfile(address)
 
     const [walletChecked, setWalletChecked] = useState(false);
 
@@ -41,6 +41,7 @@ export const useWalletStatus = () => {
         isWalletConnected,
         isLoading,
         hasProfile,
-        status
+        status,
+        setProfile
     }
 }

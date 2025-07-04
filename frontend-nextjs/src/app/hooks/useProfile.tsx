@@ -1,7 +1,13 @@
 import { packageAddress, suiClient } from "@/app/lib/sui/config";
 import { useEffect,  useState } from "react";
 
-const PROFILE_TYPE = `${packageAddress}::Profile`
+export const PROFILE_MOVE_TYPE = `${packageAddress}::Profile`
+
+export interface ProfileObjectFields {
+    name: string;
+    description: string;
+    url: string;
+}
 
 export const useProfile = (address: string | null) => {
     const [profile, setProfile] = useState<any>(null);
@@ -20,7 +26,7 @@ export const useProfile = (address: string | null) => {
                     showType: true
                 } })
 
-                const profileObj = object.data.find((object)=>object.data?.type === PROFILE_TYPE)
+                const profileObj = object.data.find((object)=>object.data?.type === PROFILE_MOVE_TYPE)
 
                 if(profileObj && profileObj.data){
                     const profile = await suiClient.getObject({
@@ -43,5 +49,5 @@ export const useProfile = (address: string | null) => {
         fetchProfile()
     }, [address])
 
-    return { profile, loading }
+    return { profile, loading, setProfile }
 }

@@ -5,7 +5,7 @@ import { LandingCard } from "./ui/card"
 
 const LandingPage: React.FC = () => {
     return (
-        <div className='div-container'>
+        <div className='div-container w-full'>
             <section className="absolute bottom-1/2 right-1/2 translate-x-[50%] translate-y-[50%] ">
                 <section className="flex flex-1 basis-1 gap-1 flex-col items-center space-around">
                     <div className="logo">

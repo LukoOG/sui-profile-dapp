@@ -176,8 +176,8 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ profile, address }) => {
 	}
 	
     return (
-        <div className="div-container overflow-y-visible">
-            <Card className="w-[calc(5/12*100%)] absolute top-[8rem] left-1/2 translate-x-[-50%] shadow-xl bg-gray-800 backdrop-blur-sm border-gray-700">
+        <div className="div-container w-[calc(5/12*100%)]">
+            <Card className="shadow-xl bg-gray-800 backdrop-blur-sm border-gray-700">
                 <CardHeader className="pb-6 text-center">
                     <CardTitle className="flex items-center justify-center gap-3 text-2xl font-bold text-white">
                         {existingProfile ? <Edit3 className="w-6 h-6" /> : <User className="w-6 h-6" />}
