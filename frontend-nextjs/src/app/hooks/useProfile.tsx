@@ -1,11 +1,12 @@
-import { packageAddress, suiClient } from "@/app/lib/Sui";
+import { packageAddress, suiClient } from "@/app/lib/sui/config";
 import { useEffect,  useState } from "react";
+import { useSuiClientQuery } from "@mysten/dapp-kit";
 
 const PROFILE_TYPE = `${packageAddress}::Profile`
 
 export const useProfile = (address: string | null) => {
     const [profile, setProfile] = useState<any>(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if(!address){
@@ -16,11 +17,9 @@ export const useProfile = (address: string | null) => {
         const fetchProfile = async () => {
             setLoading(true);
             try{
-                const objects = await suiClient.getOwnedObjects({
-                    owner:address
-                })
+                const { data } = useSuiClientQuery('getOwnedObjects', { owner: address });
 
-                const profileObj = objects.data.find((object)=>object.data?.type === PROFILE_TYPE)
+                const profileObj = data?.data.find((object)=>object.data?.type === PROFILE_TYPE)
 
                 if(profileObj && profileObj.data){
                     const profile = await suiClient.getObject({
@@ -41,7 +40,7 @@ export const useProfile = (address: string | null) => {
         }
 
         fetchProfile()
-    }, [])
+    }, [address])
 
     return { profile, loading }
 }

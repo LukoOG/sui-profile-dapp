@@ -1,25 +1,28 @@
-
 import { useState, useRef } from 'react';
 import { Button } from '@/app/components/ui/button';
 import { Input } from '@/app/components/ui/input';
 import { Label } from '@/app/components/ui/label';
 import { Upload, X } from 'lucide-react';
 import { useToast } from '@/app/components/ui/use-toast'
+import { uploadImageToWalrus } from "@/app/lib/sui/utils"
+// import Image from 'next/image';
 
 interface ImageUploadProps {
-  value: string;
   onChange: (url: string) => void;
   className?: string;
+  address: string;
 }
 
-export const ImageUpload = ({ value, onChange, className }: ImageUploadProps) => {
+export const ImageUpload = ({ onChange, className, address}: ImageUploadProps) => {
+  const [value, setValue] = useState("")
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { showToast: toast } = useToast();
 
+
   const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (!file) return;
+    if (!file) return; 
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
@@ -43,11 +46,13 @@ export const ImageUpload = ({ value, onChange, className }: ImageUploadProps) =>
 
     setIsUploading(true);
     try {
-      // Convert file to data URL
+      // Convert file to data URL for preview
       const reader = new FileReader();
       reader.onload = (e) => {
         const dataUrl = e.target?.result as string;
-        onChange(dataUrl);
+        //TODO: logic to upload image to walrus or supabase
+        // onChange(dataUrl);
+        setValue(dataUrl)
         setIsUploading(false);
       };
       reader.onerror = () => {
@@ -58,6 +63,9 @@ export const ImageUpload = ({ value, onChange, className }: ImageUploadProps) =>
         );
         setIsUploading(false);
       };
+      //upload to walrus
+      const walrusUrl = uploadImageToWalrus(file, address)
+      console.log(walrusUrl)
       reader.readAsDataURL(file);
     } catch (error) {
       toast(
@@ -143,10 +151,11 @@ export const ImageUpload = ({ value, onChange, className }: ImageUploadProps) =>
         {/* Alternative URL input */}
         <div className="text-center text-slate-500 text-sm">or</div>
         <Input
-          type="url"
+          type="text"
           placeholder="https://example.com/avatar.jpg"
-        //   value={value.startsWith('data:') ? '' : value}
-        //   onChange={(e) => onChange(e.target.value)}
+         value={value.startsWith('data:') ? '' : value}
+        //  onChange={(e) => onChange(e.target.value)}
+         onBlur={(e) => onChange(e.target.value)}
           className="border-slate-600 bg-slate-800 text-white focus:border-cyan-500 focus:ring-cyan-500 text-base py-3 placeholder:text-slate-400"
         />
       </div>
