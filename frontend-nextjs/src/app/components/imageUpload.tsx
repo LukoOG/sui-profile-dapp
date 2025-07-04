@@ -50,8 +50,7 @@ export const ImageUpload = ({ onChange, className, address}: ImageUploadProps) =
       const reader = new FileReader();
       reader.onload = (e) => {
         const dataUrl = e.target?.result as string;
-        //TODO: logic to upload image to walrus or supabase
-        // onChange(dataUrl);
+        onChange(dataUrl);
         setValue(dataUrl)
         setIsUploading(false);
       };
@@ -153,9 +152,8 @@ export const ImageUpload = ({ onChange, className, address}: ImageUploadProps) =
         <Input
           type="text"
           placeholder="https://example.com/avatar.jpg"
-         value={value.startsWith('data:') ? '' : value}
-        //  onChange={(e) => onChange(e.target.value)}
-         onBlur={(e) => onChange(e.target.value)}
+        //  value={value.startsWith('data:') ? '' : value}
+         onChange={(e) => onChange(e.target.value)}
           className="border-slate-600 bg-slate-800 text-white focus:border-cyan-500 focus:ring-cyan-500 text-base py-3 placeholder:text-slate-400"
         />
       </div>

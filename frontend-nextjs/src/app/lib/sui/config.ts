@@ -19,4 +19,7 @@ export const  walrusClient = new WalrusClient({
 	},
 })
 
-export const packageAddress = `${process.env.PACKAGE_ID}::${process.env.PACKAGE_NAME}`
+
+const PACKAGE_ID = process.env.NEXT_PUBLIC_PACKAGE_ID
+const MODULE_NAME = process.env.NEXT_PUBLIC_MODULE_NAME
+export const packageAddress = `${PACKAGE_ID}::${MODULE_NAME}`

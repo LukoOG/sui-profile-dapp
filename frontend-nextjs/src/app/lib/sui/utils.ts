@@ -1,11 +1,11 @@
 import { packageAddress, suiClient, walrusClient } from './config';
 import { Transaction } from '@mysten/sui/transactions';
 
-type funcTypes = 'create-profile'
+type funcTypes = 'create_profile'
 
 //A higher order funtion that takes in arguements and constructs a movecall PTB
-export const buildPTB = async (args: Array<any>, func: funcTypes) => {
-    const tx = new Transaction()
+export const buildPTB = async (tx:Transaction, args: Array<any>, func: funcTypes) => {
+	console.log(packageAddress)
     tx.moveCall({
         target: `${packageAddress}::${func}`,
         arguments:args

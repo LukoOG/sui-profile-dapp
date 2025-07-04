@@ -48,9 +48,9 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ profile, address }) => {
     const { showToast } = useToast();
 	const { mutateAsync: signAndExecuteTransaction } = useSignAndExecuteTransaction()
 
-	async function uploadImageToWalrus(file: File, address: string) {
-    try{
-        const bytesFile = await file.bytes()
+	// async function uploadImageToWalrus(file: File, address: string) {
+    // try{
+    //     const bytesFile = await file.bytes()
         
         // const { blobId } = await walrusClient.writeBlob({
         //     blob: bytesFile,
@@ -61,73 +61,73 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ profile, address }) => {
 		
         // const url = `https://storage.testnet.walrus.space/v1/blob/${blobId}`;
         // return url;
-		const encoded = await walrusClient.encodeBlob(bytesFile);
+// 		const encoded = await walrusClient.encodeBlob(bytesFile);
+		                            
+// 		const registerBlobTransaction = walrusClient.registerBlobTransaction({
+// 			blobId: encoded.blobId,
+// 			rootHash: encoded.rootHash,
+// 			size: bytesFile.length,
+// 			deletable: true,
+// 			epochs: 3,
+// 			owner: address,
+// 		});
+// 		registerBlobTransaction.setSender(address);
 		
-		const registerBlobTransaction = walrusClient.registerBlobTransaction({
-			blobId: encoded.blobId,
-			rootHash: encoded.rootHash,
-			size: bytesFile.length,
-			deletable: true,
-			epochs: 3,
-			owner: address,
-		});
-		registerBlobTransaction.setSender(address);
-		
-		const { digest } = await signAndExecuteTransaction({ transaction: registerBlobTransaction });
+// 		const { digest } = await signAndExecuteTransaction({ transaction: registerBlobTransaction });
 
-		const { objectChanges, effects } = await suiClient.waitForTransaction({
-			digest,
-			options: { showObjectChanges: true, showEffects: true },
-		});
+// 		const { objectChanges, effects } = await suiClient.waitForTransaction({
+// 			digest,
+// 			options: { showObjectChanges: true, showEffects: true },
+// 		});
 
-		if (effects?.status.status !== 'success') {
-			throw new Error('Failed to register blob');
-		}
+// 		if (effects?.status.status !== 'success') {
+// 			throw new Error('Failed to register blob');
+// 		}
 
-		const blobType = await walrusClient.getBlobType();
+// 		const blobType = await walrusClient.getBlobType();
 
-		const blobObject = objectChanges?.find(
-			(change) => change.type === 'created' && change.objectType === blobType,
-		);
+// 		const blobObject = objectChanges?.find(
+// 			(change) => change.type === 'created' && change.objectType === blobType,
+// 		);
 		
-		if (!blobObject || blobObject.type !== 'created') {
-			throw new Error('Blob object not found');
-		}
+// 		if (!blobObject || blobObject.type !== 'created') {
+// 			throw new Error('Blob object not found');
+// 		}
 		
-		const confirmations = await walrusClient.writeEncodedBlobToNodes({
-			blobId: encoded.blobId,
-			metadata: encoded.metadata,
-			sliversByNode: encoded.sliversByNode,
-			deletable: true,
-			objectId: blobObject.objectId,
-		});
+// 		const confirmations = await walrusClient.writeEncodedBlobToNodes({
+// 			blobId: encoded.blobId,
+// 			metadata: encoded.metadata,
+// 			sliversByNode: encoded.sliversByNode,
+// 			deletable: true,
+// 			objectId: blobObject.objectId,
+// 		});
 		
-		const certifyBlobTransaction = walrusClient.certifyBlobTransaction({
-			blobId: encoded.blobId,
-			blobObjectId: blobObject.objectId,
-			confirmations,
-			deletable: true,
-		});
-		certifyBlobTransaction.setSender(address);
+// 		const certifyBlobTransaction = walrusClient.certifyBlobTransaction({
+// 			blobId: encoded.blobId,
+// 			blobObjectId: blobObject.objectId,
+// 			confirmations,
+// 			deletable: true,
+// 		});
+// 		certifyBlobTransaction.setSender(address);
 		
-		const { digest: certifyDigest } = await signAndExecuteTransaction({
-			transaction: certifyBlobTransaction,
-		});
+// 		const { digest: certifyDigest } = await signAndExecuteTransaction({
+// 			transaction: certifyBlobTransaction,
+// 		});
 		
-		const { effects: certifyEffects } = await suiClient.waitForTransaction({
-			digest: certifyDigest,
-			options: { showEffects: true },
-		});
+// 		const { effects: certifyEffects } = await suiClient.waitForTransaction({
+// 			digest: certifyDigest,
+// 			options: { showEffects: true },
+// 		});
 
-		if (certifyEffects?.status.status !== 'success') {
-			throw new Error('Failed to certify blob');
-		}
+// 		if (certifyEffects?.status.status !== 'success') {
+// 			throw new Error('Failed to certify blob');
+// 		}
 		
-		return encoded.blobId;
-    } catch(error){
-        console.error(error)
-    }
-}
+// 		return encoded.blobId;
+//     } catch(error){
+//         console.error(error)
+//     }
+// }
 
     
     const {
@@ -166,7 +166,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ profile, address }) => {
 			tx.pure.string(e.avatarUrl)
 		]
 
-		const createProfileTx = await buildPTB(createProfileArgs, "create-profile")
+		const createProfileTx = await buildPTB(tx, createProfileArgs, "create_profile")
 		const { digest } = await signAndExecuteTransaction({
 			transaction: createProfileTx,
 		})

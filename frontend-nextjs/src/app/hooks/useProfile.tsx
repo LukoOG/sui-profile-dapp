@@ -1,8 +1,7 @@
 import { packageAddress, suiClient } from "@/app/lib/sui/config";
 import { useEffect,  useState } from "react";
-import { useSuiClientQuery } from "@mysten/dapp-kit";
 
-const PROFILE_TYPE = `${packageAddress}::Profile`
+const PROFILE_TYPE = `${packageAddress}::profile`
 
 export const useProfile = (address: string | null) => {
     const [profile, setProfile] = useState<any>(null);
@@ -15,11 +14,13 @@ export const useProfile = (address: string | null) => {
         }
 
         const fetchProfile = async () => {
-            setLoading(true);
+            setLoading(true); 
             try{
-                const { data } = useSuiClientQuery('getOwnedObjects', { owner: address });
+                const object = await suiClient.getOwnedObjects({ owner: address, options:{
+                    showType: true
+                } })
 
-                const profileObj = data?.data.find((object)=>object.data?.type === PROFILE_TYPE)
+                const profileObj = object.data.find((object)=>object.data?.type === PROFILE_TYPE)
 
                 if(profileObj && profileObj.data){
                     const profile = await suiClient.getObject({

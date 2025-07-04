@@ -8,12 +8,15 @@ import { useWalletStatus } from "./hooks/useWalletStatus";
 export default function Home() {
 
   const {
+    account,
     status,
     isLoading,
     isWalletConnected,
     hasProfile,
     profile
   } = useWalletStatus()
+
+
 
   return (
     <section className="mx-auto w-[90%] relative h-[calc(100vh+15vh)] max-h-fit">
@@ -23,10 +26,10 @@ export default function Home() {
       !isWalletConnected ? (
         <LandingPage/>
       ) : (
-        hasProfile ? (
+        hasProfile && account ? (
           <ProfileDisplay profile={profile} />
         ) : (
-          <ProfileForm profile={profile} />
+          <ProfileForm address={account?.address} profile={profile} />
         )
         
       )}
