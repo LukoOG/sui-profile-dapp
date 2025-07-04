@@ -14,7 +14,7 @@ interface ImageUploadProps {
 }
 
 export const ImageUpload = ({ onChange, className, address}: ImageUploadProps) => {
-  const [value, setValue] = useState("")
+  const [value, setValue] = useState("")                                            
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { showToast: toast } = useToast();
