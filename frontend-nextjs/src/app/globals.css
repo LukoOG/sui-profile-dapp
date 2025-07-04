@@ -50,8 +50,12 @@ body {
   }
   
   .div-container{
-    @apply my-auto mx-auto min-h-full max-h-fit relative
+    @apply my-auto mx-auto min-h-full max-h-fit 
     /* @apply relative min-h-[calc(100%+40px)]  */
+  }
+
+  .footer{
+    @apply border-t border-slate-800 bg-emerald-200/55 backdrop-blur-sm shadow-sm w-full min-h-[15vh]
   }
 
 }

@@ -34,7 +34,7 @@ export const useProfile = (address: string | null) => {
                         options: { showContent: true }
                     })
 
-                    setProfile(profile)
+                    setProfile(profile.data?.content)
                 } else {
                     setProfile(null)
                 }

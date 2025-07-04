@@ -1,28 +1,59 @@
-"use client";
-import { ConnectButton } from "@mysten/dapp-kit"
-import { Waves } from "lucide-react";
+"use client";import { Waves } from "lucide-react";
 import Image from "next/image";
 
-export default function Navbar(){
+export default function Footer(){
     return(
-        <nav className="flex flex-row justify-between p-4 header-nav">
-            <div className="mx-1 flex lex-row items-center justify-start p-3 w-[18rem]">
-                <div className="mr-2">
-                    {/* <Image src={"/file.svg"} width={35} height={35} alt={"Sui Logo"} /> */}
-                    <Waves className="w-9 h-9 text-white" />
-                </div>
-
-                <div className="space-x-3 ml-2">
-                    <h2 className="text-lg font-semibold text-amber-100 ">SUI Profile</h2>
-                    <span className="text-sm contrast-more:(#99a1af) font-[400]">Onchain identity management</span>
-                </div>
+      <footer className="footer">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+            {/* Brand Section */}
+            <div className="flex items-center gap-3">
+              <div className="w-6 h-6 bg-cyan-500 rounded-lg flex items-center justify-center">
+                <Waves className="w-4 h-4 text-white" />
+              </div>
+              <div className="text-sm">
+                <span className="text-white font-medium">Sui Profile</span>
+                <p className="text-slate-400 text-xs">Built on Sui Network</p>
+              </div>
             </div>
 
-            <div className="mx-1">
-                <div className="flex items-center justify-start p-0.5 align-middle">
-                    <ConnectButton/>
-                </div>
+            {/* Social Links */}
+            <div className="flex items-center gap-4">
+              <a
+                href="https://github.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-slate-400 hover:text-white transition-colors p-2 hover:bg-slate-800/50 rounded-lg"
+                aria-label="GitHub"
+              >
+                <Github className="w-5 h-5" />
+              </a>
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-slate-400 hover:text-white transition-colors p-2 hover:bg-slate-800/50 rounded-lg"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="w-5 h-5" />
+              </a>
+              <a
+                href="https://x.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-slate-400 hover:text-white transition-colors p-2 hover:bg-slate-800/50 rounded-lg"
+                aria-label="X (Twitter)"
+              >
+                <X className="w-5 h-5" />
+              </a>
             </div>
-        </nav>
+
+            {/* Copyright */}
+            <div className="text-xs text-slate-500">
+              © 2024 Sui Profile. All rights reserved.
+            </div>
+          </div>
+        </div>
+      </footer>
     )
 }

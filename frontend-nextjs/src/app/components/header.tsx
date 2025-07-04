@@ -1,7 +1,6 @@
 "use client";
 import { ConnectButton } from "@mysten/dapp-kit"
 import { Waves } from "lucide-react";
-import Image from "next/image";
 
 export default function Navbar(){
     return(

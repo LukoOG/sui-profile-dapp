@@ -24,8 +24,8 @@ interface ProfileDisplayProps{
 
 const ProfileDisplay: React.FC<ProfileDisplayProps> = ({ profile, address, setProfile, onEdit }) => {
     const formatAddress = (address: string): string => {
-    return `${address.slice(0, 6)}....${address.slice(-4)}`
-  }
+        return `${address.slice(0, 6)}....${address.slice(-4)}`
+    }
 
 //   if(!profile.data || profile.data.type !== PROFILE_MOVE_TYPE) setProfile(null)
 

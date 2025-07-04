@@ -26,14 +26,14 @@ export default function Home() {
 
 
   return (
-    <section className="mx-auto w-[90%] relative min-h-[80vh] max-h-fit">
+    <section className="mx-auto w-[90%] relative min-h-[calc(80vh-16px)] max-h-fit">
       { isLoading ? (
         <LoadingSpinner className="text-white" text={ status === "checking-wallet" ? "Connecting Wallet" : "Loading Profile" } />
       ):
       !isWalletConnected ? (
         <LandingPage/>
       ) : (
-        hasProfile && account ? (
+        hasProfile && profile && account ? (
 			<ProfileDisplay profile={profile} address={account!.address} onEdit={handleEdit} />
         ) : (
           <ProfileForm address={account!.address} profile={profile} />
