@@ -25,7 +25,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Transaction } from "@mysten/sui/transactions";
 import { buildPTB } from "../lib/sui/utils";
 import { useSignAndExecuteTransaction } from "@mysten/dapp-kit";
-import { suiClient } from "../lib/sui/config";
+import { suiClient, walrusClient } from "../lib/sui/config";
 
 // TODO: remove null checkcase. i.e make sure address is always string when passed.
 interface ProfileFormProps{
@@ -47,6 +47,87 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ profile, address }) => {
     const [isDeleting, setIsDeleting] = useState(false);
     const { showToast } = useToast();
 	const { mutateAsync: signAndExecuteTransaction } = useSignAndExecuteTransaction()
+
+	async function uploadImageToWalrus(file: File, address: string) {
+    try{
+        const bytesFile = await file.bytes()
+        
+        // const { blobId } = await walrusClient.writeBlob({
+        //     blob: bytesFile,
+        //     deletable: false,
+        //     epochs: 2,
+        //     signer
+        // })
+		
+        // const url = `https://storage.testnet.walrus.space/v1/blob/${blobId}`;
+        // return url;
+		const encoded = await walrusClient.encodeBlob(bytesFile);
+		
+		const registerBlobTransaction = walrusClient.registerBlobTransaction({
+			blobId: encoded.blobId,
+			rootHash: encoded.rootHash,
+			size: bytesFile.length,
+			deletable: true,
+			epochs: 3,
+			owner: address,
+		});
+		registerBlobTransaction.setSender(address);
+		
+		const { digest } = await signAndExecuteTransaction({ transaction: registerBlobTransaction });
+
+		const { objectChanges, effects } = await suiClient.waitForTransaction({
+			digest,
+			options: { showObjectChanges: true, showEffects: true },
+		});
+
+		if (effects?.status.status !== 'success') {
+			throw new Error('Failed to register blob');
+		}
+
+		const blobType = await walrusClient.getBlobType();
+
+		const blobObject = objectChanges?.find(
+			(change) => change.type === 'created' && change.objectType === blobType,
+		);
+		
+		if (!blobObject || blobObject.type !== 'created') {
+			throw new Error('Blob object not found');
+		}
+		
+		const confirmations = await walrusClient.writeEncodedBlobToNodes({
+			blobId: encoded.blobId,
+			metadata: encoded.metadata,
+			sliversByNode: encoded.sliversByNode,
+			deletable: true,
+			objectId: blobObject.objectId,
+		});
+		
+		const certifyBlobTransaction = walrusClient.certifyBlobTransaction({
+			blobId: encoded.blobId,
+			blobObjectId: blobObject.objectId,
+			confirmations,
+			deletable: true,
+		});
+		certifyBlobTransaction.setSender(address);
+		
+		const { digest: certifyDigest } = await signAndExecuteTransaction({
+			transaction: certifyBlobTransaction,
+		});
+		
+		const { effects: certifyEffects } = await suiClient.waitForTransaction({
+			digest: certifyDigest,
+			options: { showEffects: true },
+		});
+
+		if (certifyEffects?.status.status !== 'success') {
+			throw new Error('Failed to certify blob');
+		}
+		
+		return encoded.blobId;
+    } catch(error){
+        console.error(error)
+    }
+}
 
     
     const {
@@ -90,7 +171,10 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ profile, address }) => {
 			transaction: createProfileTx,
 		})
 
+		
 		console.log(digest)
+	}
+	
     return (
         <div className="div-container overflow-y-visible">
             <Card className="w-[calc(5/12*100%)] absolute top-[8rem] left-1/2 translate-x-[-50%] shadow-xl bg-gray-800 backdrop-blur-sm border-gray-700">

@@ -4,7 +4,7 @@ import { Input } from '@/app/components/ui/input';
 import { Label } from '@/app/components/ui/label';
 import { Upload, X } from 'lucide-react';
 import { useToast } from '@/app/components/ui/use-toast'
-import { uploadImageToWalrus } from "@/app/lib/sui/utils"
+// import { uploadImageToWalrus } from "@/app/lib/sui/utils"
 // import Image from 'next/image';
 
 interface ImageUploadProps {
@@ -64,8 +64,8 @@ export const ImageUpload = ({ onChange, className, address}: ImageUploadProps) =
         setIsUploading(false);
       };
       //upload to walrus
-      const walrusUrl = uploadImageToWalrus(file, address)
-      console.log(walrusUrl)
+      // const walrusUrl = uploadImageToWalrus(file, address)
+      // console.log(walrusUrl)
       reader.readAsDataURL(file);
     } catch (error) {
       toast(
