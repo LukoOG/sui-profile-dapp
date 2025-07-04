@@ -6,7 +6,7 @@ use sui::url::Url;
 use std::ascii;
 
 // Structs
-public struct Profile has key, store {
+public struct Profile has key {
     id: UID,
     owner: address,
     name: string::String,
@@ -32,7 +32,7 @@ public entry fun create_profile(name: string::String, description: string::Strin
         url: sui::url::new_unsafe(url)
     };
 
-    transfer::public_transfer(profile, owner)
+    transfer::transfer(profile, owner)
 }
 
 public entry fun update_profile(profile: &mut Profile, new_name: string::String, new_description:string::String, new_url: ascii::String, ctx: &mut TxContext){
