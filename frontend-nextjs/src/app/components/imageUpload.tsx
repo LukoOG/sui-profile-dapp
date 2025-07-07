@@ -133,7 +133,9 @@ export const ImageUpload = ({ onChange, className}: ImageUploadProps) => {
           <Button
             type="button"
             onClick={handleButtonClick}
-            disabled={isUploading}
+            // disabled={isUploading}
+            // pending walrus integration
+            disabled={false}
             className="flex-1 border-slate-600 bg-slate-800 text-white hover:bg-slate-700 focus:border-cyan-500 focus:ring-cyan-500"
             variant="outline"
           >

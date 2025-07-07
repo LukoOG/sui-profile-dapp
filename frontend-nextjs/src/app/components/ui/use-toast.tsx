@@ -45,12 +45,12 @@ const ToastProvider: React.FC<{children: ReactNode}> = ({ children }) => {
     return (
         <ToastContext.Provider value={{showToast}}>
             {children}
-            <div className="fixed top-4 right-4 flex flex-col space-y-2 z-[9999]">
+            <div className="fixed bottom-4 right-4 flex flex-col space-y-3 z-[9999]">
                 {toasts.map((t) => (
                     <div
                     key={t.id}
                     className={cn(
-                    "px-4 py-2 rounded shadow text-sm text-white",
+                    "px-4 py-2 rounded shadow text-md text-white",
                     t.type === "info" && "bg-gray-800",
                     t.type === "success" && "bg-green-600",
                     t.type === "error" && "bg-red-600"
