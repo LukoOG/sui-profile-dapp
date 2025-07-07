@@ -40,12 +40,20 @@ export default function Home() {
     setEditing(true);
   };
 
-  if (status === "checking-wallet" || status === "loading-profile") {
-    return <LoadingSpinner text={getSpinnerText(status)} />;
+  if (status) {
+    return (
+	 <section className="mx-auto w-[90%] relative h-[calc(80vh-16px)] flex flex-row items-center justify-center">
+	   <LoadingSpinner className="" text={getSpinnerText(status)} />
+    </section>
+	)
   }
 
   if (status === "disconnected") {
-    return <LandingPage />;
+	 return (
+	 <section className="mx-auto w-[90%] min-h-[calc(80vh-16px)] max-h-fit">
+	   <LandingPage />
+    </section>
+	)
   }
 
   return (
