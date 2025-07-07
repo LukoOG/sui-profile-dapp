@@ -40,7 +40,7 @@ export default function Home() {
     setEditing(true);
   };
 
-  if (status) {
+  if (status === "checking-wallet" || status === "loading-profile") {
     return (
 	 <section className="mx-auto w-[90%] relative h-[calc(80vh-16px)] flex flex-row items-center justify-center">
 	   <LoadingSpinner className="" text={getSpinnerText(status)} />

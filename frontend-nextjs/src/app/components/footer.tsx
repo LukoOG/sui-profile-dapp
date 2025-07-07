@@ -13,7 +13,7 @@ export default function Footer(){
               </div>
               <div className="text-sm">
                 <span className="text-white font-medium">Sui Profile</span>
-                <p className="text-slate-400 text-xs">Built on Sui Network</p>
+                <p className="text-slate-300 text-xs">Built on Sui Network</p>
               </div>
             </div>
 
@@ -23,7 +23,7 @@ export default function Footer(){
                 href="https://github.com/LukoOG"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-slate-400 hover:text-white transition-colors p-2 hover:bg-slate-800/50 rounded-lg"
+                className="text-slate-300 hover:text-white transition-colors p-2 hover:bg-slate-800/50 rounded-lg"
                 aria-label="GitHub"
               >
                 <Github className="w-5 h-5" />
@@ -32,7 +32,7 @@ export default function Footer(){
                 href="https://www.linkedin.com/in/emmanuel-adesipe-79b901365"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-slate-400 hover:text-white transition-colors p-2 hover:bg-slate-800/50 rounded-lg"
+                className="text-slate-300 hover:text-white transition-colors p-2 hover:bg-slate-800/50 rounded-lg"
                 aria-label="LinkedIn"
               >
                 <Linkedin className="w-5 h-5" />
@@ -41,7 +41,7 @@ export default function Footer(){
                 href="https://x.com/Sipe_OG1"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-slate-400 hover:text-white transition-colors p-2 hover:bg-slate-800/50 rounded-lg"
+                className="text-slate-300 hover:text-white transition-colors p-2 hover:bg-slate-800/50 rounded-lg"
                 aria-label="X (Twitter)"
               >
                 <X className="w-5 h-5" />
@@ -49,7 +49,7 @@ export default function Footer(){
             </div>
 
             {/* Copyright */}
-            <div className="text-xs text-slate-500">
+            <div className="text-xs text-slate-400">
               © 2024 Sui Profile. All rights reserved.
             </div>
           </div>
