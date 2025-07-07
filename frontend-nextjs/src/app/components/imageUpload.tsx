@@ -4,16 +4,16 @@ import { Input } from '@/app/components/ui/input';
 import { Label } from '@/app/components/ui/label';
 import { Upload, X } from 'lucide-react';
 import { useToast } from '@/app/components/ui/use-toast'
+import Image from 'next/image';
 // import { uploadImageToWalrus } from "@/app/lib/sui/utils"
 // import Image from 'next/image';
 
 interface ImageUploadProps {
-  onChange: (url: string) => void;
+  onChange: (url: string ) => void;
   className?: string;
-  address: string;
 }
 
-export const ImageUpload = ({ onChange, className, address}: ImageUploadProps) => {
+export const ImageUpload = ({ onChange, className}: ImageUploadProps) => {
   const [value, setValue] = useState("")                                            
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -73,6 +73,7 @@ export const ImageUpload = ({ onChange, className, address}: ImageUploadProps) =
         // variant: "destructive",
       );
       setIsUploading(false);
+      console.error("failed to set image", error)
     }
   };
 
@@ -106,11 +107,17 @@ export const ImageUpload = ({ onChange, className, address}: ImageUploadProps) =
         {value && (
           <div className="flex justify-center">
             <div className="relative w-32 h-32 rounded-lg overflow-hidden border-2 border-slate-600 bg-slate-800">
-              <img
+              {/* <img
                 src={value}
                 alt="Avatar preview"
                 className="w-full h-full object-cover"
+              /> */}
+              <Image 
+                src={value}
+                alt="Avatar preview"
+                className="w-full h-full object-cover" 
               />
+              
               <button
                 type="button"
                 onClick={handleRemove}

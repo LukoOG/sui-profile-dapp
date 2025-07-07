@@ -1,28 +1,24 @@
 import  React  from "react";
 import { useCurrentAccount, useSuiClientContext } from "@mysten/dapp-kit";
-import { SuiObjectResponse } from "@mysten/sui/client";
-import { ProfileObjectFields } from "../hooks/useProfile";
 import {Card, CardContent, CardFooter } from "@/app/components/ui/card";
 import { Button } from "@/app/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Badge } from "./ui/Badge";
 import { Shield, User, Link, Edit3 } from "lucide-react";
+import { useAppState } from "../context/AppStateContext";
+import { MoveVariant } from "@mysten/sui/client";
 
 interface ProfileDisplayProps{
-    profile: {fields:ProfileObjectFields};
-    setProfile: (profile: SuiObjectResponse) => void,
 	onEdit: ()=>void;
 }
 
-// interface ProfileObjectResponse extends SuiObjectResponse{
-//     data:{
-//         content:{
-//             fields: ProfileObjectFields
-//         }
-//     }
-// }
+interface ProfileMoveFields extends MoveVariant{
+    name: string;
+    description: string;
+    url: string;
+}
 
-const ProfileDisplay: React.FC<ProfileDisplayProps> = ({ profile, setProfile, onEdit }) => {
+const ProfileDisplay: React.FC<ProfileDisplayProps> = ({  onEdit }) => {
 
     const account = useCurrentAccount()
     const { network } = useSuiClientContext()
@@ -30,14 +26,23 @@ const ProfileDisplay: React.FC<ProfileDisplayProps> = ({ profile, setProfile, on
         return `${address.slice(0, 6)}....${address.slice(-4)}`
     }
 
-//   if(!profile.data || profile.data.type !== PROFILE_MOVE_TYPE) setProfile(null)
+    const {
+        profile,
+        setProfile,
+        setView
+    } = useAppState()
 
-    // const network = account.
+    const getProfileFields = () => {
+        if (profile?.dataType == "moveObject"){
+            return profile.fields
+        } else if(profile?.dataType == "package") {
+            setProfile(null)
+            setView("form")
+            return
+        }
+    }
+    const fields = getProfileFields() as ProfileMoveFields;
 
-  const { fields } = profile
-
-  console.log(fields)
-  
     return (
         <div className="div-container w-[calc(5/12*100%)]">
             <Card>

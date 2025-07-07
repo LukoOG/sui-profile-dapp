@@ -1,9 +1,13 @@
-import { packageAddress, suiClient, walrusClient } from './config';
+import { packageAddress, suiClient } from './config';
 import { Transaction } from '@mysten/sui/transactions';
+
 
 type funcTypes = 'create_profile'
 
+export const PROFILE_MOVE_TYPE = `${packageAddress}::Profile`
+
 //A higher order funtion that takes in arguements and constructs a movecall PTB
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const buildPTB = async (tx:Transaction, args: Array<any>, func: funcTypes) => {
 	console.log(packageAddress)
     tx.moveCall({
@@ -11,6 +15,30 @@ export const buildPTB = async (tx:Transaction, args: Array<any>, func: funcTypes
         arguments:args
     })
     return tx
+}
+
+export const fetchProfileObject= async (address: string) => {
+	try{
+		const object = await suiClient.getOwnedObjects({ owner: address, options:{
+			showType: true
+		} })
+
+		const profileObj = object.data.find((object)=>object.data?.type === PROFILE_MOVE_TYPE)
+
+		if(profileObj && profileObj.data){
+			const profile = await suiClient.getObject({
+				id: profileObj.data.objectId,
+				options: { showContent: true }
+			})
+
+			return profile.data?.content
+		} else {
+			return null
+		}
+	} catch(error){
+		console.error(error)
+		return null
+	}
 }
 
 //moving the function to the profile form component because of the need for the allet hook

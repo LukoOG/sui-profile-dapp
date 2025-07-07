@@ -1,6 +1,5 @@
 "use client";
-import { Waves, Edit3, Plus, Github, Linkedin, X } from 'lucide-react';
-import Image from "next/image";
+import { Waves, Github, Linkedin, X } from 'lucide-react';
 
 export default function Footer(){
     return(
@@ -30,7 +29,7 @@ export default function Footer(){
                 <Github className="w-5 h-5" />
               </a>
               <a
-                href="www.linkedin.com/in/emmanuel-adesipe-79b901365"
+                href="https://www.linkedin.com/in/emmanuel-adesipe-79b901365"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-slate-400 hover:text-white transition-colors p-2 hover:bg-slate-800/50 rounded-lg"

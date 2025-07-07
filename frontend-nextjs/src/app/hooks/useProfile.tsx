@@ -1,5 +1,6 @@
 import { packageAddress, suiClient } from "@/app/lib/sui/config";
 import { useEffect,  useState } from "react";
+import { SuiParsedData } from "@mysten/sui/client";
 
 export const PROFILE_MOVE_TYPE = `${packageAddress}::Profile`
 
@@ -10,7 +11,7 @@ export interface ProfileObjectFields {
 }
 
 export const useProfile = (address: string | null) => {
-    const [profile, setProfile] = useState<any>(null);
+    const [profile, setProfile] = useState<SuiParsedData | null | undefined>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {

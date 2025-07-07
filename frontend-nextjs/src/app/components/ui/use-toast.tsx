@@ -31,8 +31,10 @@ const ToastContext = createContext<ToastContextProps>({
 const ToastProvider: React.FC<{children: ReactNode}> = ({ children }) => {
     const [toasts, setToasts] = useState<Toast[]>([])
 
-    const showToast = useCallback( (message: ReactNode, { type = "info", duration = 3000 }={}) => {
+    //find out how to properly pass in type
+    const showToast = useCallback( (message: ReactNode, { t = "info", duration = 3000 }={}) => {
         const  id = Date.now().toString()
+        const type = t as ToastType
         setToasts((prev) => [...prev, { id, message, type }]);
         setTimeout(()=>{
             setToasts((prev) => prev.filter((t) => t.id !== id));

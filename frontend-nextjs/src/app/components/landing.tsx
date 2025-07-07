@@ -1,4 +1,3 @@
-import { Ultra } from "next/font/google"
 import Image from "next/image"
 import  React  from "react"
 import { LandingCard } from "./ui/card"

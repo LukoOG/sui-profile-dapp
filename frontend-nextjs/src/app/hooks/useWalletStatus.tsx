@@ -1,4 +1,4 @@
-import { useCurrentAccount, useAutoConnectWallet } from "@mysten/dapp-kit";
+import { useCurrentAccount } from "@mysten/dapp-kit";
 import { useProfile } from "@/app/hooks/useProfile"
 import { useState, useEffect } from "react";
 
@@ -20,7 +20,7 @@ export const useWalletStatus = () => {
     const isWalletConnected = walletChecked && !!account;
     const isLoadingProfile = isWalletConnected && profileLoading;
     const hasProfile = !!profile;
-    let isLoading = isCheckingWallet || isLoadingProfile
+    const isLoading = isCheckingWallet || isLoadingProfile
 
 
     //future sake

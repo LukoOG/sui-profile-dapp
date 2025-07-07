@@ -1,16 +1,15 @@
 import  React, {
-	FormEvent,
     useEffect,
     useState,
 }  from "react"
 import { useToast } from "./ui/use-toast"
 import {
     Card,
-    CardDescription,
+    // CardDescription,
     CardHeader,
     CardContent,
     CardTitle,
-    CardFooter,
+    // CardFooter,
 } from "@/app/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
 import { ImageUpload } from "./imageUpload";
@@ -25,109 +24,27 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Transaction } from "@mysten/sui/transactions";
 import { buildPTB } from "../lib/sui/utils";
 import { useSignAndExecuteTransaction } from "@mysten/dapp-kit";
-import { suiClient, walrusClient } from "../lib/sui/config";
-
-// TODO: remove null checkcase. i.e make sure address is always string when passed.
-interface ProfileFormProps{
-    profile: any;
-	address: string;
-};
+import { useAppState } from "../context/AppStateContext";
 
 const profileSchema = z.object({
   name: z.string().min(1, "Name is required"),
   bio: z.string().optional(),
-  avatarUrl: z.string().url("Must be a valid URL").nullable(),
+  avatarUrl: z.string().url("Must be a valid URL"),
 });
 
 type ProfileFormData = z.infer<typeof profileSchema>;
 
-const ProfileForm: React.FC<ProfileFormProps> = ({ profile, address }) => {
+const ProfileForm = () => {
     const [existingProfile, setExistingProfile] = useState(false)
     const [isLoading, setIsLoading] = useState(false); //submision loading, not global loading state
     const [isDeleting, setIsDeleting] = useState(false);
     const { showToast } = useToast();
 	const { mutateAsync: signAndExecuteTransaction } = useSignAndExecuteTransaction()
 
-	// async function uploadImageToWalrus(file: File, address: string) {
-    // try{
-    //     const bytesFile = await file.bytes()
-        
-        // const { blobId } = await walrusClient.writeBlob({
-        //     blob: bytesFile,
-        //     deletable: false,
-        //     epochs: 2,
-        //     signer
-        // })
-		
-        // const url = `https://storage.testnet.walrus.space/v1/blob/${blobId}`;
-        // return url;
-// 		const encoded = await walrusClient.encodeBlob(bytesFile);
-		                            
-// 		const registerBlobTransaction = walrusClient.registerBlobTransaction({
-// 			blobId: encoded.blobId,
-// 			rootHash: encoded.rootHash,
-// 			size: bytesFile.length,
-// 			deletable: true,
-// 			epochs: 3,
-// 			owner: address,
-// 		});
-// 		registerBlobTransaction.setSender(address);
-		
-// 		const { digest } = await signAndExecuteTransaction({ transaction: registerBlobTransaction });
-
-// 		const { objectChanges, effects } = await suiClient.waitForTransaction({
-// 			digest,
-// 			options: { showObjectChanges: true, showEffects: true },
-// 		});
-
-// 		if (effects?.status.status !== 'success') {
-// 			throw new Error('Failed to register blob');
-// 		}
-
-// 		const blobType = await walrusClient.getBlobType();
-
-// 		const blobObject = objectChanges?.find(
-// 			(change) => change.type === 'created' && change.objectType === blobType,
-// 		);
-		
-// 		if (!blobObject || blobObject.type !== 'created') {
-// 			throw new Error('Blob object not found');
-// 		}
-		
-// 		const confirmations = await walrusClient.writeEncodedBlobToNodes({
-// 			blobId: encoded.blobId,
-// 			metadata: encoded.metadata,
-// 			sliversByNode: encoded.sliversByNode,
-// 			deletable: true,
-// 			objectId: blobObject.objectId,
-// 		});
-		
-// 		const certifyBlobTransaction = walrusClient.certifyBlobTransaction({
-// 			blobId: encoded.blobId,
-// 			blobObjectId: blobObject.objectId,
-// 			confirmations,
-// 			deletable: true,
-// 		});
-// 		certifyBlobTransaction.setSender(address);
-		
-// 		const { digest: certifyDigest } = await signAndExecuteTransaction({
-// 			transaction: certifyBlobTransaction,
-// 		});
-		
-// 		const { effects: certifyEffects } = await suiClient.waitForTransaction({
-// 			digest: certifyDigest,
-// 			options: { showEffects: true },
-// 		});
-
-// 		if (certifyEffects?.status.status !== 'success') {
-// 			throw new Error('Failed to certify blob');
-// 		}
-		
-// 		return encoded.blobId;
-//     } catch(error){
-//         console.error(error)
-//     }
-// }
+	const {
+		setEditing,
+		profile
+	} = useAppState()
 
     
     const {
@@ -139,9 +56,12 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ profile, address }) => {
     } = useForm<ProfileFormData>({
         resolver: zodResolver(profileSchema),
         defaultValues: {
-            name: profile?.name || null,
-            bio: profile?.bio || '',
-            avatarUrl: profile?.avatarUrl || '',
+            // name: profile?.name || null,
+            name: '',
+            // bio: profile?.bio || '',
+            bio: '',
+            // avatarUrl: profile?.avatarUrl || '',
+            avatarUrl: '',
         },
     });
 
@@ -155,14 +75,27 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ profile, address }) => {
         } else if (!profile){
             showToast("No Profile detected", {type:"info", duration:3000})
         }
-    }, [])
+    }, [profile, showToast])
+	
+	const handleDelete = () => {
+		setIsDeleting(true)
+		console.log("deleting")
+		setIsDeleting(false)
+		setEditing(false)
+	}
 
-    const handleFormSubmit = async (e:any) => {
-        console.log(e)
-		const tx = new Transaction()
-		const createProfileArgs = [
+    const handleFormSubmit = async (e: {name:string, bio?:string | undefined, avatarUrl: string}) => {
+		if(existingProfile){
+			setIsLoading(true)
+			console.log('editing', e)
+			setIsLoading(false)
+			setEditing(false)
+		} else if(!existingProfile){
+			const tx = new Transaction()
+			const bio = e.bio ?? ""
+			const createProfileArgs = [
 			tx.pure.string(e.name),
-			tx.pure.string(e.bio),
+			tx.pure.string(bio),
 			tx.pure.string(e.avatarUrl)
 		]
 
@@ -172,7 +105,8 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ profile, address }) => {
 		})
 
 		
-		console.log(digest)
+		console.log(digest)			
+		}
 	}
 	
     return (
@@ -185,6 +119,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ profile, address }) => {
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
+
                     {/* avatar preview */}
                     <div className="flex justify-center">
 						<Avatar className="w-28 h-28 border-4 border-cyan-500/20 shadow-lg">
@@ -225,7 +160,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ profile, address }) => {
 						<ImageUpload
 							onChange={(url) => setValue('avatarUrl', url, { shouldValidate: true })}
 							className="space-y-1"
-							address={address}
 						/>
 						{errors.avatarUrl && <p className="text-red-500">{errors.avatarUrl.message}</p>}
 
@@ -247,6 +181,29 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ profile, address }) => {
 									</>
 								)}
 							</Button>
+							
+							{/* {existingProfile && onDelete && (*/}
+							{existingProfile && (
+              <Button
+                type="button"
+                onClick={handleDelete}
+                disabled={isDeleting}
+                variant="destructive"
+                className="px-8 py-3 text-base h-auto font-semibold"
+              >
+                {isDeleting ? (
+                  <>
+                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                    Deleting...
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="w-5 h-5 mr-2" />
+                    Delete
+                  </>
+                )}
+              </Button>
+            )}
 						</div>
 					</form>
                 </CardContent>
