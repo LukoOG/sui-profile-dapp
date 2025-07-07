@@ -85,7 +85,9 @@ export const ImageUpload = ({ onChange, className}: ImageUploadProps) => {
   };
 
   const handleButtonClick = () => {
-    fileInputRef.current?.click();
+    toast("Image upload currently disabled. Please upload a url link" {type:"error", duration:3000})
+    // pending walrus integration
+    // fileInputRef.current?.click();
   };
 
   return (
