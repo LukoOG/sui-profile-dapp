@@ -87,7 +87,8 @@ const ProfileForm = () => {
 	}
 
     const handleFormSubmit = async (e: {name:string, bio?:string | undefined, avatarUrl: string}) => {
-		if(existingProfile){
+		try{
+			if(existingProfile){
 			setIsLoading(true)
 			console.log('editing', e)
 			setIsLoading(false)
@@ -112,6 +113,10 @@ const ProfileForm = () => {
 
 		console.log(digest)
 		await refetchProfile()	
+		}
+		} catch(error){
+			console.error("transaction failed", error);
+			showToast("Transaction failed", { type:"error", duration:3000 })
 		}
 	}
 	
