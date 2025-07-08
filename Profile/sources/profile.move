@@ -27,7 +27,7 @@ const ENotProfileOwner: u64 = 0;
 
 
 //Functions
-public fun construct_socials (s: vector<ascii::String> ): option::Option<vector<Url>> {
+public fun construct_socials (s: vector<string::String> ): option::Option<vector<Url>> {
     if (vector::is_empty(&s)){
         option::none()
     } else {
@@ -35,7 +35,8 @@ public fun construct_socials (s: vector<ascii::String> ): option::Option<vector<
         let mut i = 0;
         let mut urls = vector::empty();
         while (i < x){
-            let ascii_str = *vector::borrow(&s, i);
+            let str = *vector::borrow(&s, i);
+            let ascii_str = str.to_ascii();
             let url = sui::url::new_unsafe(ascii_str);
             vector::push_back(&mut urls, url);
             i = i + 1;
@@ -49,7 +50,7 @@ public entry fun create_profile
     name: string::String, 
     description: string::String, 
     url: ascii::String,
-    socials: vector<ascii::String>,
+    socials: vector<string::String>,
     ctx: &mut TxContext
     )
     {
