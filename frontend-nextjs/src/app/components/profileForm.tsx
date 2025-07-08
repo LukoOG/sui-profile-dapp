@@ -43,7 +43,8 @@ const ProfileForm = () => {
 
 	const {
 		setEditing,
-		profile
+		profile,
+		refetchProfile
 	} = useAppState()
 
     
@@ -104,8 +105,8 @@ const ProfileForm = () => {
 			transaction: createProfileTx,
 		})
 
-		
-		console.log(digest)			
+		console.log(digest)
+		await refetchProfile()	
 		}
 	}
 	
