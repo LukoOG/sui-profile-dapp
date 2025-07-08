@@ -25,14 +25,14 @@ const ENotProfileOwner: u64 = 0;
 
 
 //Functions
-fun construct_socials (s: vector<ascii::String> ): option::Option<vector<Url>> {
+public fun construct_socials (s: vector<ascii::String> ): option::Option<vector<Url>> {
     if (vector::is_empty(&s)){
         option::none()
     } else {
         let x = vector::length(&s);
         let mut i = 0;
         let mut urls = vector::empty();
-        while (i <= x){
+        while (i < x){
             let ascii_str = *vector::borrow(&s, i);
             let url = sui::url::new_unsafe(ascii_str);
             vector::push_back(&mut urls, url);
