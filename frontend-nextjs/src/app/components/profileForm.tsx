@@ -97,7 +97,8 @@ const ProfileForm = () => {
 			const createProfileArgs = [
 			tx.pure.string(e.name),
 			tx.pure.string(bio),
-			tx.pure.string(e.avatarUrl)
+			tx.pure.string(e.avatarUrl),
+			tx.makeMoveVec({ elements: [] }) //support for url links will be added
 		]
 
 		const createProfileTx = await buildPTB(tx, createProfileArgs, "create_profile")

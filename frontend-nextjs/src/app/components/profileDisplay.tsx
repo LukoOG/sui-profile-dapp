@@ -78,6 +78,10 @@ const ProfileDisplay: React.FC<ProfileDisplayProps> = ({  onEdit }) => {
                                 </p>
                             </div>
                             )}
+
+                            <div className="flex justify-center gap-4 pt-4">
+                                <p className="text-md text-stone-300">Social links support will be added soon</p>
+                            </div>
                         </div>
 
                         {/* On-Chain Information */}

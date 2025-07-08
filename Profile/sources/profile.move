@@ -15,6 +15,8 @@ public struct Profile has key {
     url: Url, //profile picture url
     // socials: VecMap<u8, Url>,
     socials: std::option::Option<vector<Url>>,
+    //TODO: add profile type
+    // type: string::String,
 }
 
 // Constants; 
