@@ -65,7 +65,7 @@ const ProfileDisplay: React.FC<ProfileDisplayProps> = ({  onEdit }) => {
                         {/* Profile Info */}
                         <div className="text-center space-y-4 w-full">
                             <div>
-                            <h1 className="text-3xl font-bold text-white mb-2">{fields.name} <br/> {formatAddress(account!.address)}</h1>
+                            <h1 className="text-3xl font-bold text-white mb-2">{fields.name} <br/> {formatAddress(account?.address)}</h1>
                             <Badge variant="secondary" className="bg-cyan-500/10 text-cyan-400 border-cyan-500/20 px-3 py-1">
                                 <User className="w-3 h-3 mr-1" />
                                 Verified Profile
