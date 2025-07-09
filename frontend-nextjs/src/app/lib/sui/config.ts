@@ -2,7 +2,7 @@ import { SuiClient, getFullnodeUrl } from "@mysten/sui/client";
 // import { WalrusClient } from "@mysten/walrus";
 
 type Network = "devnet" | "testnet" | "mainnet"
-export const network: Network = "devnet"
+export const network: Network = "testnet"
 
 export const suiClient = new SuiClient({
     url: getFullnodeUrl(network)

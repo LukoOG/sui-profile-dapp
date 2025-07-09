@@ -40,7 +40,7 @@ const ProfileForm = () => {
     const [isLoading, setIsLoading] = useState(false); //submision loading, not global loading state
     const [isDeleting, setIsDeleting] = useState(false);
     const { showToast } = useToast();
-	const { mutateAsync: signAndExecuteTransaction } = useSignAndExecuteTransaction()
+	const { mutateAsync: signAndExecuteTransaction} = useSignAndExecuteTransaction()
 
 	const {
 		setEditing,
@@ -88,7 +88,7 @@ const ProfileForm = () => {
 
     const handleFormSubmit = async (e: {name:string, bio?:string | undefined, avatarUrl: string}) => {
 		try{
-			if(existingProfile){
+		if(existingProfile){
 			setIsLoading(true)
 			console.log('editing', e)
 			setIsLoading(false)
@@ -100,10 +100,10 @@ const ProfileForm = () => {
 			tx.pure.string(e.name),
 			tx.pure.string(bio),
 			tx.pure.string(e.avatarUrl),
-			// tx.makeMoveVec({ elements: [], type:"0x1::string::String"}) //support for url links will be added
-			tx.pure(
-				bcs.vector(bcs.String).serialize([])
-			)
+			 tx.makeMoveVec({ elements: [], type:"0x1::string::String"}) //support for url links will be added
+			//tx.pure(
+			//	bcs.vector(bcs.U8).serialize([4])
+			//)
 		]
 
 		const createProfileTx = await buildPTB(tx, createProfileArgs, "create_profile")
