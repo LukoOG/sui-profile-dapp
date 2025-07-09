@@ -22,7 +22,8 @@ const ProfileDisplay: React.FC<ProfileDisplayProps> = ({  onEdit }) => {
 
     const account = useCurrentAccount()
     const { network } = useSuiClientContext()
-    const formatAddress = (address: string): string => {
+    const formatAddress = (address: string | null): string => {
+		if(!address) return "";
         return `${address.slice(0, 6)}....${address.slice(-4)}`
     }
 
@@ -64,7 +65,7 @@ const ProfileDisplay: React.FC<ProfileDisplayProps> = ({  onEdit }) => {
                         {/* Profile Info */}
                         <div className="text-center space-y-4 w-full">
                             <div>
-                            <h1 className="text-3xl font-bold text-white mb-2">{fields.name} {formatAddress(account!.address)}</h1>
+                            <h1 className="text-3xl font-bold text-white mb-2">{fields.name} {formatAddress(account?.address)}</h1>
                             <Badge variant="secondary" className="bg-cyan-500/10 text-cyan-400 border-cyan-500/20 px-3 py-1">
                                 <User className="w-3 h-3 mr-1" />
                                 Verified Profile
@@ -80,7 +81,7 @@ const ProfileDisplay: React.FC<ProfileDisplayProps> = ({  onEdit }) => {
                             )}
 
                             <div className="flex justify-center gap-4 pt-4">
-                                <p className="text-md text-stone-300">Social links support will be added soon</p>
+                                <p className="text-md text-yellow-400/95">Support to add social links to Profile objects will be added soon</p>
                             </div>
                         </div>
 

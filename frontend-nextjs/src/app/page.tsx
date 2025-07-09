@@ -34,10 +34,12 @@ export default function Home() {
     profile,
     view,
     setEditing,
+	setView,
   } = useAppState();
 
   const handleEdit = () => {
     setEditing(true);
+	setView("form")
   };
 
   if (status === "checking-wallet" || status === "loading-profile") {

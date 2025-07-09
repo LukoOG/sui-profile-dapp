@@ -45,7 +45,8 @@ const ProfileForm = () => {
 	const {
 		setEditing,
 		profile,
-		refetchProfile
+		refetchProfile,
+		setView
 	} = useAppState()
 
     
@@ -72,27 +73,30 @@ const ProfileForm = () => {
     
     useEffect(() => {
         if(profile){
-            showToast("Profile detected", {type:"success", duration:3000})
+            showToast("Profile detected", {type:"success", duration:2000})
             setExistingProfile(true)
         } else if (!profile){
-            showToast("No Profile detected", {type:"info", duration:3000})
+            showToast("No Profile detected", {type:"info", duration:2000})
         }
     }, [profile, showToast])
 	
 	const handleDelete = () => {
 		setIsDeleting(true)
-		console.log("deleting")
+		console.log("deleting", isDeleting)
 		setIsDeleting(false)
+		showToast("Support to Update and Delete Profile will be added", {type:"error", duration:5000})
 		setEditing(false)
+		setView("display")
 	}
 
     const handleFormSubmit = async (e: {name:string, bio?:string | undefined, avatarUrl: string}) => {
 		try{
 		if(existingProfile){
 			setIsLoading(true)
-			console.log('editing', e)
 			setIsLoading(false)
+			showToast("Support to Update and Delete Profile will be added", {type:"error", duration:5000})
 			setEditing(false)
+			setView("display")
 		} else if(!existingProfile){
 			const tx = new Transaction()
 			const bio = e.bio ?? ""
@@ -178,6 +182,7 @@ const ProfileForm = () => {
 							<Button
 								type="submit"
 								disabled={isLoading}
+								onClick={handleFormSubmit}
 								className="flex-1 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 text-base h-auto"
 								>
 								{isLoading ? (
