@@ -1,22 +1,32 @@
 module profile::profile;
 
 use std::string;
-// use sui::event;
 use sui::url::Url;
 // use sui::vec_map::{Self, VecMap};
 use std::ascii;
 
-// Structs
+///enums
+public enum Status has drop, store{
+    Personal,
+    Work,
+}
+
+/// Structs
 public struct Profile has key {
     id: UID,
     owner: address,
     name: string::String,
-    description: string::String, //profile bio. Change fieldname back to bio if description isn't NFT standard
-    url: Url, //profile picture url
-    // socials: VecMap<u8, Url>,
+    //profile bio. Change fieldname back to bio if description isn't NFT standard
+    description: string::String, 
+    //profile picture url
+    url: Url, 
     socials: std::option::Option<vector<Url>>,
-    //TODO: add profile type
-    // type: string::String,
+    // socials: VecMap<u8, Url>, alternate implementation
+
+    /* TODO: update Profile Object with extra fields
+    profile_type: vector<u8>,
+    status: Status,
+    */
 }
 
 // Constants; 
