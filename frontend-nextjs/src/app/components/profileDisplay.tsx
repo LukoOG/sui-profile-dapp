@@ -22,8 +22,8 @@ const ProfileDisplay: React.FC<ProfileDisplayProps> = ({  onEdit }) => {
 
     const account = useCurrentAccount()
     const { network } = useSuiClientContext()
-    const formatAddress = (address: string | null): string => {
-		if(!address) return "";
+    const formatAddress = (address: string | undefined): string => {
+		if(!address || address === undefined) return "";
         return `${address.slice(0, 6)}....${address.slice(-4)}`
     }
 
