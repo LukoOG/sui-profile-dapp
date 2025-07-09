@@ -50,14 +50,14 @@ const ProfileDisplay: React.FC<ProfileDisplayProps> = ({  onEdit }) => {
                 <CardContent>
                     <div className="">
                         {/* Avatar */}
-                        <div className="relative">
+                        <div className="relative mt-2">
                             <Avatar className="w-36 h-36 border-4 border-cyan-500/20 shadow-lg">
                                 <AvatarImage src={fields.url} alt={fields.name} />
                                 <AvatarFallback className="bg-cyan-500/10 text-cyan-400 text-5xl font-semibold">
                                     {fields.name.charAt(0).toUpperCase()}
                                 </AvatarFallback>
                             </Avatar>
-                            <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 border-4 border-slate-900 rounded-full flex items-center justify-center">
+                            <div className="absolute top-2 -right-2 w-8 h-8 bg-green-500 border-4 border-slate-900 rounded-full flex items-center justify-center">
                             <Shield className="w-4 h-4 text-white" />
                             </div>
                         </div>
@@ -65,7 +65,7 @@ const ProfileDisplay: React.FC<ProfileDisplayProps> = ({  onEdit }) => {
                         {/* Profile Info */}
                         <div className="text-center space-y-4 w-full">
                             <div>
-                            <h1 className="text-3xl font-bold text-white mb-2">{fields.name} {formatAddress(account?.address)}</h1>
+                            <h1 className="text-3xl font-bold text-white mb-2">{fields.name} <br/> {formatAddress(account!.address)}</h1>
                             <Badge variant="secondary" className="bg-cyan-500/10 text-cyan-400 border-cyan-500/20 px-3 py-1">
                                 <User className="w-3 h-3 mr-1" />
                                 Verified Profile

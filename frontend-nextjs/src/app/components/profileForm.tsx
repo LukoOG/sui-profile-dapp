@@ -92,7 +92,7 @@ const ProfileForm = () => {
     const handleFormSubmit = async (e: {name:string, bio?:string | undefined, avatarUrl: string}) => {
 		try{
 		if(existingProfile){
-			setIsLoading(true)
+			setIsLoading(true) 
 			setIsLoading(false)
 			showToast("Support to Update and Delete Profile will be added", {type:"error", duration:5000})
 			setEditing(false)
@@ -182,7 +182,6 @@ const ProfileForm = () => {
 							<Button
 								type="submit"
 								disabled={isLoading}
-								onClick={handleFormSubmit}
 								className="flex-1 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 text-base h-auto"
 								>
 								{isLoading ? (
