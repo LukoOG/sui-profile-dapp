@@ -7,8 +7,9 @@ use std::ascii;
 
 ///enums
 public enum Status has drop, store{
-    Personal,
-    Work,
+    Active,
+    Idle,
+	Inactive,
 }
 
 /// Structs
