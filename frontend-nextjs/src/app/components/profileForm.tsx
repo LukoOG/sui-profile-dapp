@@ -102,7 +102,7 @@ const ProfileForm = () => {
 			tx.pure.string(e.avatarUrl),
 			// tx.makeMoveVec({ elements: [], type:"0x1::string::String"}) //support for url links will be added
 			tx.pure(
-			bcs.vector(bcs.U8).serialize([4])
+			bcs.vector(bcs.String).serialize([])
 			)
 		]
 
