@@ -17,7 +17,7 @@ Users can connect their wallet, create a profile stored onchain, and view their 
 
 ```bash
 # clone and install dependencies
-git clone https://github.com/your-username/onchain-profile-manager.git
+git clone https://github.com/LukoOG/sui-profile-dapp.git
 cd onchain-profile-manager
 npm install
 
