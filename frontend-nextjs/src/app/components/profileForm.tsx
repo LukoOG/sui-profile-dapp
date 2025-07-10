@@ -23,7 +23,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Transaction } from "@mysten/sui/transactions";
 import { buildPTB } from "../lib/sui/utils";
-import { useSignAndExecuteTransaction } from "@mysten/dapp-kit";
+import { useSignAndExecuteTransaction, useSuiClient } from "@mysten/dapp-kit";
 import { bcs } from "@mysten/sui/bcs";
 import { useAppState } from "../context/AppStateContext";
 
@@ -47,7 +47,10 @@ const ProfileForm = () => {
 		profile,
 		refetchProfile,
 		setView
-	} = useAppState()
+	} = useAppState();
+
+	const client = useSuiClient();
+	console.log(client.network) //debug purposes
 
     
     const {
@@ -104,9 +107,9 @@ const ProfileForm = () => {
 			tx.pure.string(e.name),
 			tx.pure.string(bio),
 			tx.pure.string(e.avatarUrl),
-			// tx.makeMoveVec({ elements: [], type:"0x1::string::String"}) //support for url links will be added
+			// tx.makeMoveVec({ elements: [], type:"0x1::string::String"})
 			tx.pure(
-			bcs.vector(bcs.String).serialize([])
+				bcs.vector(bcs.String).serialize([]) //support for url links will be added 
 			)
 		]
 
@@ -116,6 +119,8 @@ const ProfileForm = () => {
 		})
 
 		console.log(digest)
+		await client.waitForTransaction({ digest }) //wait for the profile object to be available before refetch
+
 		await refetchProfile()	
 		}
 		} catch(error){
